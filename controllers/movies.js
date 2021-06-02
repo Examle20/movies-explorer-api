@@ -1,11 +1,18 @@
 const Movie = require('../models/movie');
+const NotFoundError = require('../errors/NotFoundError');
+const BadRequestError = require('../errors/BadRequestError');
+const ForbiddenError = require('../errors/ForbiddenError');
 
-module.exports.addMovie = (req, res) => {
+module.exports.addMovie = (req, res, next) => {
   const { country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId} = req.body;
   Movie.create({ country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId, owner: req.user._id})
     .then((movie) => res.send(movie))
     .catch((err) => {
-      res.send(err.message)
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
+        next(new BadRequestError('Введены некорректные данные для добавления фильма'));
+      } else {
+        next(err);
+      }
     });
 };
 
@@ -19,17 +26,21 @@ module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
     .then((movie) => {
       if (!movie) {
-        res.send("Непраильно");
+        throw new NotFoundError('Данного фильма нет в базе данных');
       }
       if (movie.owner._id.toString() === req.user._id) {
         Movie.findByIdAndRemove(movie._id)
           .then(() => res.send({ message: 'Успешно' }))
-          .catch((err) => res.send("Непраильно"));
+          .catch(next);
       } else {
-        res.send("Непраильно")
+        throw new ForbiddenError('Удалять можно только собственно добавленные фильмы');
       }
     })
     .catch((err) => {
-      res.send("Непраильно")
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
+        next(new BadRequestError('Введены некорректные данные для удаления фильма'));
+      } else {
+        next(err);
+      }
     });
 };
