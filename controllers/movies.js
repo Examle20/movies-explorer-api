@@ -6,7 +6,7 @@ const ForbiddenError = require('../errors/ForbiddenError');
 module.exports.addMovie = (req, res, next) => {
   const { country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId} = req.body;
   Movie.create({ country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId, owner: req.user._id})
-    .then((movie) => res.send(movie))
+    .then((movie) => res.status(200).send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new BadRequestError('Введены некорректные данные для добавления фильма'));
@@ -18,7 +18,7 @@ module.exports.addMovie = (req, res, next) => {
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
-    .then((movies) => res.send(movies))
+    .then((movies) => res.status(200).send(movies))
     .catch(next);
 };
 
@@ -30,7 +30,7 @@ module.exports.deleteMovie = (req, res, next) => {
       }
       if (movie.owner._id.toString() === req.user._id) {
         Movie.findByIdAndRemove(movie._id)
-          .then(() => res.send({ message: 'Успешно' }))
+          .then(() => res.status(200).send({ message: 'Успешно' }))
           .catch(next);
       } else {
         throw new ForbiddenError('Удалять можно только собственно добавленные фильмы');
