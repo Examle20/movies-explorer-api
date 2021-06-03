@@ -4,6 +4,7 @@ const router = require('./routes');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const handleError = require('./middlewares/handleErorr');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3000 } = process.env;
 
 const app = express();
@@ -18,8 +19,13 @@ mongoose.connect('mongodb://localhost:27017/mydb', {
   useUnifiedTopology: true,
 });
 
+app.use(requestLogger);
+
 app.use('/', router);
+
+app.use(errorLogger)
 
 app.use(errors());
 app.use(handleError)
+
 app.listen(PORT);
