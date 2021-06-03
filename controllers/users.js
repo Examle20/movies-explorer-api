@@ -19,8 +19,8 @@ module.exports.createUser = (req, res, next) => {
       password: hash,
     }))
     .then((user) => res.status(200).send({
-      _id: user._id,
       email: user.email,
+      name: user.name,
     }))
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
@@ -39,7 +39,7 @@ module.exports.getUser = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Запрашиваемый пользователь не найден');
       }
-      res.status(200).send(user);
+      res.status(200).send({email: user.email, name: user.name,});
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
