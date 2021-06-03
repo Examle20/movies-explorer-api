@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const isEmail = require('validator/lib/isEmail');
 const bcrypt = require('bcryptjs');
-const UnauthorizedError = require('../errors/UnauthorizedError')
+const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -22,8 +22,8 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    select: false
-  }
+    select: false,
+  },
 });
 
 userSchema.statics.findUserByCredentials = function (email, password, next) { // eslint-disable-line
@@ -39,9 +39,9 @@ userSchema.statics.findUserByCredentials = function (email, password, next) { //
           }
           return user;
         })
-        .catch(next)
+        .catch(next);
     })
-    .catch(next)
+    .catch(next);
 };
 
 module.exports = mongoose.model('user', userSchema);

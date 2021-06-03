@@ -1,10 +1,11 @@
-const User = require('../models/user')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const MongoError = require('../errors/MongoError');
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.createUser = (req, res, next) => {
@@ -47,10 +48,10 @@ module.exports.getUser = (req, res, next) => {
         next(err);
       }
     });
-}
+};
 
 module.exports.updateUser = (req, res, next) => {
-  const { name, email} = req.body;
+  const { name, email } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, email }, { runValidators: true, new: true })
     .then((user) => {
       if (!user) {
@@ -71,14 +72,13 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      console.log(email, password)
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' },
       );
       res.status(200).send({ token });
-      res.cookie('jwt', 'Bearer ' + token, {
+      res.cookie('jwt', `Bearer ${token}`, {
         maxAge: 3600000,
         httpOnly: true,
       })

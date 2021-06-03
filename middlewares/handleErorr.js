@@ -1,5 +1,5 @@
 module.exports = (err, req, res, next) => { // eslint-disable-line
-  const {statusCode = 500, message} = err;
+  const { statusCode = 500, message } = err;
   res
     .status(statusCode)
     .send({
@@ -7,5 +7,5 @@ module.exports = (err, req, res, next) => { // eslint-disable-line
       message: statusCode === 500
         ? 'На сервере произошла ошибка'
         : message,
-    })
-  }
+    });
+};

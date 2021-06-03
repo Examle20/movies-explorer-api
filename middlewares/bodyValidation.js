@@ -2,9 +2,9 @@ const { celebrate, Joi, CelebrateError } = require('celebrate');
 const validator = require('validator');
 
 const urlValidation = (url) => {
-  if(!validator.isURL(url)) throw new CelebrateError('Некорректный адрес ссылки');
-  return url
-}
+  if (!validator.isURL(url)) throw new CelebrateError('Некорректный адрес ссылки');
+  return url;
+};
 
 module.exports.signupValidation = celebrate({
   body: Joi.object().keys({
@@ -47,4 +47,4 @@ module.exports.deleteMovieValidation = celebrate({
   params: Joi.object().keys({
     movieId: Joi.string().hex().length(24),
   }),
-})
+});
