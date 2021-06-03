@@ -38,7 +38,7 @@ const movieSchema = new mongoose.Schema({
       validator(v) {
         return /(https?):\/\/\S{2,}\.\S{2,}/.test(v);
       },
-      message: (props) => `${props.value} Неправильный формат ссылки!`,
+      message: (props) => `${props.value} Некорректный адрес ссылки`,
     },
   },
   thumbnail: {
@@ -48,7 +48,7 @@ const movieSchema = new mongoose.Schema({
       validator(v) {
         return /(https?):\/\/\S{2,}\.\S{2,}/.test(v);
       },
-      message: (props) => `${props.value} Неправильный формат ссылки!`,
+      message: (props) => `${props.value} Некорректный адрес ссылки`,
     },
   },
   owner: {
