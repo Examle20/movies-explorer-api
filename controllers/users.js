@@ -5,6 +5,9 @@ const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const MongoError = require('../errors/MongoError');
+const {
+  BAD_REQUEST_ERROR, USER_NOT_FOUND, UNAUTHORIZED_ERROR, MONGO_ERROR,
+} = require('../utils/constans');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -24,9 +27,9 @@ module.exports.createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
-        next(new BadRequestError('Введены некорректные данные для создания пользователя'));
+        next(new BadRequestError(BAD_REQUEST_ERROR));
       } else if (err.name === 'MongoError') {
-        next(new MongoError('Пользователь с таким email уже существует'));
+        next(new MongoError(MONGO_ERROR));
       } else {
         next(err);
       }
@@ -37,13 +40,13 @@ module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Запрашиваемый пользователь не найден');
+        throw new NotFoundError(USER_NOT_FOUND);
       }
-      res.status(200).send({email: user.email, name: user.name,});
+      res.status(200).send({ email: user.email, name: user.name });
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
-        next(new BadRequestError('Некорректные данные для получения информации о пользователе'));
+        next(new BadRequestError(BAD_REQUEST_ERROR));
       } else {
         next(err);
       }
@@ -55,13 +58,13 @@ module.exports.updateUser = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, { name, email }, { runValidators: true, new: true })
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Запрашиваемый пользователь не найден');
+        throw new NotFoundError(USER_NOT_FOUND);
       }
       res.status(200).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
-        next(new BadRequestError('Введены некорректные данные для обновления пользователя'));
+        next(new BadRequestError(BAD_REQUEST_ERROR));
       } else {
         next(err);
       }
@@ -85,7 +88,7 @@ module.exports.login = (req, res, next) => {
         .end();
     })
     .catch((err) => {
-      if (err.name === 'Error') next(new UnauthorizedError('Неправильные почта или пароль'));
+      if (err.name === 'Error') next(new UnauthorizedError(UNAUTHORIZED_ERROR));
       next(err);
     });
 };

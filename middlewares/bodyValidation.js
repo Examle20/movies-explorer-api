@@ -1,8 +1,9 @@
 const { celebrate, Joi, CelebrateError } = require('celebrate');
 const validator = require('validator');
+const { INCORRECT_LINK_ERROR } = require('../utils/constans');
 
 const urlValidation = (url) => {
-  if (!validator.isURL(url)) throw new CelebrateError('Некорректный адрес ссылки');
+  if (!validator.isURL(url)) throw new CelebrateError(INCORRECT_LINK_ERROR);
   return url;
 };
 
