@@ -94,3 +94,7 @@ module.exports.login = (req, res, next) => {
       next(err);
     });
 };
+
+module.exports.signOut = (req, res) => {
+  res.clearCookie('jwt').end();
+};
