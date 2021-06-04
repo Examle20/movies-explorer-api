@@ -4,7 +4,8 @@ const { AUTHORIZATION_REQUIRED_ERROR } = require('../utils/constans');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports = (req, res, next) => {
-  const { authorization } = req.headers;
+  const authorization  = req.cookies.jwt
+  console.log(authorization)
   if (!authorization || !authorization.startsWith('Bearer ')) {
     res.send(AUTHORIZATION_REQUIRED_ERROR);
   }
