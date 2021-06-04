@@ -10,7 +10,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const {corsOptions} = require('./utils/constans');
-const { PORT = 3000 } = process.env;
+const { PORT, DB_ADDRESS } = require('./utils/configEnv');
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://localhost:27017/mydb', {
+mongoose.connect(DB_ADDRESS, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
