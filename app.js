@@ -8,11 +8,13 @@ const handleError = require('./middlewares/handleErorr');
 const { limiter } = require('./middlewares/limiter');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cookieParser = require('cookie-parser');
-
+const cors = require('cors');
+const {corsOptions} = require('./utils/constans');
 const { PORT = 3000 } = process.env;
 
 const app = express();
 
+app.use(cors(corsOptions));
 app.use(helmet());
 app.use(limiter);
 app.use(cookieParser());

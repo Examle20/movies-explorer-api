@@ -9,7 +9,10 @@ const UNAUTHORIZED_ERROR = 'Неправильные почта или паро�
 const AUTHORIZATION_REQUIRED_ERROR = 'Необходима авторизация';
 const INCORRECT_LINK_ERROR = 'Некорректный адресс ссылки';
 const SERVER_ERROR = 'На сервере произошла ошибка';
-
+const corsOptions = {
+  origin: ['http://localhost:3000'],
+  credentials: true,
+};
 module.exports = {
   BAD_REQUEST_ERROR,
   NOT_FOUND_ERROR,
@@ -22,4 +25,5 @@ module.exports = {
   AUTHORIZATION_REQUIRED_ERROR,
   INCORRECT_LINK_ERROR,
   SERVER_ERROR,
+  corsOptions
 };
