@@ -3,13 +3,13 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const router = require('./routes');
 const handleError = require('./middlewares/handleErorr');
 const { limiter } = require('./middlewares/limiter');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
-const {corsOptions} = require('./utils/constans');
+const { corsOptions } = require('./utils/constans');
 const { PORT, DB_ADDRESS } = require('./utils/configEnv');
 
 const app = express();

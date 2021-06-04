@@ -25,5 +25,5 @@ module.exports = {
   AUTHORIZATION_REQUIRED_ERROR,
   INCORRECT_LINK_ERROR,
   SERVER_ERROR,
-  corsOptions
+  corsOptions,
 };
