@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const {JWT_SECRET} = require('../utils/configEnv');
 const bcrypt = require('bcryptjs');
+const { JWT_SECRET } = require('../utils/configEnv');
 const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
@@ -9,7 +9,6 @@ const MongoError = require('../errors/MongoError');
 const {
   BAD_REQUEST_ERROR, USER_NOT_FOUND, UNAUTHORIZED_ERROR, MONGO_ERROR,
 } = require('../utils/constans');
-
 
 module.exports.createUser = (req, res, next) => {
   const {
