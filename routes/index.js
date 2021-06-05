@@ -9,7 +9,7 @@ const { NOT_FOUND_ERROR } = require('../utils/constans');
 
 router.post('/signup', signupValidation, createUser);
 router.post('/signin', signinValidation, login);
-router.post('/signout', signOut);
+router.post('/signout', auth, signOut);
 
 router.use(auth, users);
 router.use(auth, movies);

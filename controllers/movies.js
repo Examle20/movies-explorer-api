@@ -30,6 +30,7 @@ module.exports.addMovie = (req, res, next) => {
     .then((movie) => res.status(200).send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
+        console.log(err.message)
         next(new BadRequestError(BAD_REQUEST_ERROR));
       } else {
         next(err);
@@ -50,7 +51,7 @@ module.exports.deleteMovie = (req, res, next) => {
         throw new NotFoundError(MOVIE_NOT_FOUND);
       }
       if (movie.owner._id.toString() === req.user._id) {
-        Movie.findByIdAndRemove(movie._id)
+        movie.remove()
           .then(() => res.status(200).send(SUCCESS))
           .catch(next);
       } else {

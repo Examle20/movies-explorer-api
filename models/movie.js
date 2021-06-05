@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-
+const {INCORRECT_LINK_ERROR} = require('../utils/constans');
+const validator = require('validator')
 const movieSchema = new mongoose.Schema({
   country: {
     type: String,
@@ -25,30 +26,30 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator(v) {
-        return /(https?):\/\/\S{2,}\.\S{2,}/.test(v);
+      validator: (v) => {
+        return validator.isURL(v)
       },
-      message: (props) => `${props.value} Неправильный формат ссылки!`,
+      message: INCORRECT_LINK_ERROR,
     },
   },
   trailer: {
     type: String,
     required: true,
     validate: {
-      validator(v) {
-        return /(https?):\/\/\S{2,}\.\S{2,}/.test(v);
+      validator: (v) => {
+        return validator.isURL(v)
       },
-      message: (props) => `${props.value} Некорректный адрес ссылки`,
+      message: INCORRECT_LINK_ERROR,
     },
   },
   thumbnail: {
     type: String,
     required: true,
     validate: {
-      validator(v) {
-        return /(https?):\/\/\S{2,}\.\S{2,}/.test(v);
+      validator: (v) => {
+        return validator.isURL(v)
       },
-      message: (props) => `${props.value} Некорректный адрес ссылки`,
+      message: INCORRECT_LINK_ERROR,
     },
   },
   owner: {

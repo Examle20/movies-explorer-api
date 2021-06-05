@@ -54,6 +54,17 @@ module.exports.getUser = (req, res, next) => {
 
 module.exports.updateUser = (req, res, next) => {
   const { name, email } = req.body;
+  User.find({email})
+    .then((user) => {
+      if(user) throw new MongoError(MONGO_ERROR);
+    })
+    .catch((err) => {
+    if (err.name === 'CastError' || err.name === 'ValidationError') {
+      next(new BadRequestError(BAD_REQUEST_ERROR));
+    } else {
+      next(err);
+    }
+  });
   User.findByIdAndUpdate(req.user._id, { name, email }, { runValidators: true, new: true })
     .then((user) => {
       if (!user) {
@@ -90,7 +101,7 @@ module.exports.login = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'Error') next(new UnauthorizedError(UNAUTHORIZED_ERROR));
-      next(err);
+      else next(err);
     });
 };
 

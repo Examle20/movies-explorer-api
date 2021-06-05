@@ -8,6 +8,7 @@ const MONGO_ERROR = 'Пользователь с таким email уже сущ�
 const UNAUTHORIZED_ERROR = 'Неправильные почта или пароль';
 const AUTHORIZATION_REQUIRED_ERROR = 'Необходима авторизация';
 const INCORRECT_LINK_ERROR = 'Некорректный адресс ссылки';
+const INCORRECT_EMAIL_ERROR = 'Некорректный адресс ссылки';
 const SERVER_ERROR = 'На сервере произошла ошибка';
 const corsOptions = {
   origin: ['http://localhost:3000'],
@@ -24,6 +25,7 @@ module.exports = {
   UNAUTHORIZED_ERROR,
   AUTHORIZATION_REQUIRED_ERROR,
   INCORRECT_LINK_ERROR,
+  INCORRECT_EMAIL_ERROR,
   SERVER_ERROR,
   corsOptions,
 };
