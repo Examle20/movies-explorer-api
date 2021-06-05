@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const {INCORRECT_LINK_ERROR} = require('../utils/constans');
-const validator = require('validator')
+const validator = require('validator');
+const { INCORRECT_LINK_ERROR } = require('../utils/constans');
+
 const movieSchema = new mongoose.Schema({
   country: {
     type: String,
@@ -26,9 +27,7 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => {
-        return validator.isURL(v)
-      },
+      validator: (v) => validator.isURL(v),
       message: INCORRECT_LINK_ERROR,
     },
   },
@@ -36,9 +35,7 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => {
-        return validator.isURL(v)
-      },
+      validator: (v) => validator.isURL(v),
       message: INCORRECT_LINK_ERROR,
     },
   },
@@ -46,9 +43,7 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => {
-        return validator.isURL(v)
-      },
+      validator: (v) => validator.isURL(v),
       message: INCORRECT_LINK_ERROR,
     },
   },

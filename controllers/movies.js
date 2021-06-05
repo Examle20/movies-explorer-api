@@ -30,7 +30,6 @@ module.exports.addMovie = (req, res, next) => {
     .then((movie) => res.status(200).send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
-        console.log(err.message)
         next(new BadRequestError(BAD_REQUEST_ERROR));
       } else {
         next(err);
