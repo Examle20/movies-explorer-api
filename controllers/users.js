@@ -41,7 +41,7 @@ module.exports.getUser = (req, res, next) => {
       if (!user) {
         throw new NotFoundError(USER_NOT_FOUND);
       }
-      res.status(200).send({ email: user.email, name: user.name });
+      res.status(200).send({id: user._id, email: user.email, name: user.name });
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
@@ -54,29 +54,20 @@ module.exports.getUser = (req, res, next) => {
 
 module.exports.updateUser = (req, res, next) => {
   const { name, email } = req.body;
-  User.find({ email })
-    .then((user) => {
-      if (user) throw new MongoError(MONGO_ERROR);
-    })
-    .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
-        next(new BadRequestError(BAD_REQUEST_ERROR));
-      } else {
-        next(err);
-      }
-    });
   User.findByIdAndUpdate(req.user._id, { name, email }, { runValidators: true, new: true })
     .then((user) => {
       if (!user) {
         throw new NotFoundError(USER_NOT_FOUND);
       }
-      res.status(200).send({ data: user });
+      res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new BadRequestError(BAD_REQUEST_ERROR));
+      } else if (err.name === 'MongoError'){
+        next(new MongoError(MONGO_ERROR))
       } else {
-        next(err);
+        next(err)
       }
     });
 };
@@ -90,7 +81,6 @@ module.exports.login = (req, res, next) => {
         JWT_SECRET,
         { expiresIn: '7d' },
       );
-      // res.status(200).send({ token });
       res.cookie('jwt', `Bearer ${token}`, {
         maxAge: 3600000,
         httpOnly: true,
