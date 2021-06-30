@@ -11,7 +11,7 @@ const INCORRECT_LINK_ERROR = 'Некорректный адресс ссылки
 const INCORRECT_EMAIL_ERROR = 'Некорректный адресс почты';
 const SERVER_ERROR = 'На сервере произошла ошибка';
 const corsOptions = {
-  origin: ['http://localhost:3000'],
+  origin: ["https://movies.examle.nomoredomains.club"],
   credentials: true,
 };
 module.exports = {
